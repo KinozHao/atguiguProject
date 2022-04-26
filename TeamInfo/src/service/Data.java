@@ -3,7 +3,7 @@ package service;
 /**
  * @author kinoz
  * @date 2022/4/23 - 16:56
- * @apiNote
+ * @apiNote 所有员工的数据，相当于我们用java写了一个数据库
  */
 public class Data {
     public static final int EMPLOYEE = 10;

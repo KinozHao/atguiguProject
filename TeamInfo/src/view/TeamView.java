@@ -19,10 +19,11 @@ public class TeamView {
     }
 
     //员工列表
-    private NameListService listSvc = new NameListService();
+    private final NameListService listSvc = new NameListService();
     //团队列表
-    private TeamService teamSvc = new TeamService();
+    private final TeamService teamSvc = new TeamService();
 
+    //软件界面
     public void enterMainMenu(){
         boolean isFlag = true;
         char menu = 0;
@@ -57,7 +58,8 @@ public class TeamView {
         }
 
     }
-    //查看公司所有员工信息
+
+    //获取所有员工信息
     public void listAllEmployees(){
         System.out.println("----------------------------开发团队调度软件----------------------------\n");
         Employee[] employees = listSvc.getAllEmployees();
@@ -73,7 +75,8 @@ public class TeamView {
         System.out.println("----------------------------------------------------------------------");
 
     }
-    //查看开发团队情况
+
+    //获取开发团队情况
     public void getTeam(){
         System.out.println("-----------------------------团队成员列表------------------------------");
 

@@ -4,7 +4,6 @@ import domain.human.Architect;
 import domain.human.Designer;
 import domain.human.Employee;
 import domain.human.Programmer;
-import jdk.swing.interop.SwingInterOpUtils;
 
 /**
  * @author kinoz
@@ -12,7 +11,7 @@ import jdk.swing.interop.SwingInterOpUtils;
  * @apiNote 开发团队成员的管理[增删改查]
  */
 public class TeamService {
-    //用于给memberId赋值
+    //用于给TID赋值
     private static int counter = 1;
     //开发团队至多人数
     private final int MAX_MEMBER = 5;
@@ -21,11 +20,12 @@ public class TeamService {
     //记录团队实际人数
     private int total = 0;
 
-    //获取开发团队中的所有成员
+    //1:获取开发团队所有成员[知识点:数组遍历]
     public Programmer[] getTeam(){
-        /*total为几就造几个Programmer对象
-        新造这个数组的意义在于，每次传入的并不都是MAX_MEMBER个人
-        而是通过total来记录到底传入了多少人*/
+        /*Note: 此数组意义
+        每次传入的人数并不都是MAX_MEMBER
+        而是通过total来记录到底传入了多少人
+        total为几就造几个team对象*/
         Programmer[] team = new Programmer[total];
         for (int i = 0; i < team.length; i++) {
             team[i] = this.team[i];
@@ -34,8 +34,7 @@ public class TeamService {
         return team;
     }
 
-
-    //添加指定员工到团队中,并判断添加时可能遇到的问题，给出具体的异常提示
+    //2:添加指定员工到团队中[知识点:异常处理]
     public void addMember(Employee e) throws TeamException{
         //step 1:判断团队成员数量
         if (total >= MAX_MEMBER){
@@ -84,22 +83,24 @@ public class TeamService {
                 numOfArch++;
             }else if (team[i] instanceof Designer){
                 numOfDes++;
-            }else if (team[i] instanceof Programmer){
+            //}else if (team[i] instanceof Programmer){
+            }else {
                 numOfPro++;
             }
         }
         //5.2根据获取到的人数进行判断，并抛出相应异常
         if (cxy instanceof Architect){
             if (numOfArch >=1){
-                throw new TeamException("一个团队只能有一个架构师");
+                throw new TeamException("TEAM_MAX_ARCHITECT:1");
             }
-        }else if (cxy instanceof Designer){
-            if (numOfDes >=2){
-                throw new TeamException("一个团队只能有二个设计师");
+        }else if (cxy instanceof Designer) {
+            if (numOfDes >= 2) {
+                throw new TeamException("TEAM_MAX_DESIGNER:2");
             }
-        }else if(cxy instanceof Programmer){
+        //}else if(cxy instanceof Programmer){
+        }else {
             if (numOfPro >=3){
-                throw new TeamException("一个团队只能有三个程序员");
+                throw new TeamException("TEAM_MAX_PROGRAMMER:3");
             }
         }
 
@@ -113,7 +114,36 @@ public class TeamService {
         cxy.setMemberId(counter++);
     }
 
-    //Step3.1:判断要添加的员工是否已经存在团队中
+    //3:删除团队中指定的员工[知识点:元素交换]
+    public void removeMember(int TID) throws  TeamException{
+        //accord this judge,decide:logic1 OR logic2
+        int i =0;
+        for (; i < total; i++) {
+            if (team[i].getMemberId() == TID){
+                //设置此员工状态为FREE
+                team[i].setStatus(Status.FREE);
+                //此时即可跳出循环
+                break;
+            }
+        }
+
+        //logic1:没找到ID的情况
+        if (i == total){
+            throw new TeamException("找不到指定TID的员工,删除失败！");
+        }
+
+        //logic2:找到ID的情况(后一个元素覆盖前一个元素)
+        for (int j = i; j < total; j++) {
+            team[j] = team[j+1];
+        }
+        //最后一个元素要置null
+        team[total-1] = null;
+        total--;
+        //写法2
+        //team[--total] = null;
+    }
+
+    //2.1 Step3.1:判断要添加的员工是否已经存在团队中
     private boolean isExist(Employee e) {
         for (int i = 0; i < total; i++) {
             //判断开发团队中成员ID和要添加的是否相同(也可以使用memberID判断)
@@ -125,37 +155,5 @@ public class TeamService {
             return team[i].getId() == e.getId();
         }
         return false;
-    }
-
-    //删除团队中指定的员工
-    public void removeMember(int memberID) throws  TeamException{
-        //通过此逻辑第一轮判断,走逻辑1还是逻辑2
-        int i =0;
-        for (; i < total; i++) {
-            if (team[i].getMemberId() == memberID){
-                //设置此员工状态为FREE
-                team[i].setStatus(Status.FREE);
-                //此时即可跳出循环
-                break;
-            }
-        }
-
-        //逻辑1:没找到ID的情况
-        if (i == total){
-            throw new TeamException("找不到指定MemberID的员工,删除失败！");
-        }
-
-        //逻辑2:找到ID的情况(后一个元素覆盖前一个元素)
-        for (int j = i; j < total; j++) {
-            team[j] = team[j+1];
-        }
-        //最后一个元素要置null
-        team[total-1] = null;
-        total--;
-
-        //写法2
-        //team[--total] = null;
-
-
     }
 }

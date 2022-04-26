@@ -10,11 +10,12 @@ public class Status {
     private Status(String name){
         this.NAME = name;
     }
-    //三个全局常量对应的是成员的具体状态
+    //三个全局常量对应成员的状态
     public static final Status FREE = new Status("FREE");
     public static final Status BUSY = new Status("BUSY");
     public static final Status VOCATION = new Status("VOCATION");
 
+    //用于TeamService获取状态
     public String getNAME() {
         return NAME;
     }

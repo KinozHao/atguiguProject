@@ -18,23 +18,22 @@ import static service.Data.*;
  * 并提供Employee[]相关的方法
  */
 public class NameListService {
-    //声明employees数组
+    //1:声明employees数组
     private Employee[] employees;
 
-    //此构造器用于给employees数组元素进行初始化
+    //2:employees数组元素初始化
     public NameListService() {
-        //根据项目提供的Data类 new相应大小的employees数组
+        //根据Data类 new相应大小的employees数组
         employees = new Employee[EMPLOYEES.length];
 
-        //数组遍历
+        //对数组遍历
         for (int i = 0; i < employees.length; i++) {
             /*获取Data中的EMPLOYESS这个二位数组的全部元素
             * 存入type变量中(因为EMPLOYEES中的元素为String类型,所以要进行强转)*/
-            int type = Integer.parseInt(EMPLOYEES[i][0]);
+            int YgType = Integer.parseInt(EMPLOYEES[i][0]);
 
             /*每个参数代表其在EMPLOYEES对应索引的值
             * 通过switch case语句new相应的对象传入所需参数*/
-
             int id = Integer.parseInt(EMPLOYEES[i][1]);
             String name = EMPLOYEES[i][2];
             int age = Integer.parseInt(EMPLOYEES[i][3]);
@@ -42,12 +41,11 @@ public class NameListService {
             double bonus;
             int stock;
 
-            /* 此对象用于获取设备，在此处只声明不处理
-             * 在具体某个类存在设别时候，在对应的位置去赋值*/
+            //用于获取设备
             Equipment equipment;
 
-            //通过type获取的值、判断值对应的全局常量、最后确定new什么类型的对象
-            switch (type){
+            //通过type的值、判断值对应的全局常量、最后确定new什么类型的对象
+            switch (YgType){
                 //数字可读性太差，使用常量表示更直观
                 case EMPLOYEE:
                     employees[i] = new Employee(id,name,age,salary);
@@ -70,11 +68,12 @@ public class NameListService {
             }
         }
     }
-    //获取指定index上员工的设备
+
+    //2.1:获取指定index上员工的设备
     private Equipment creatEquipment(int index){
 
         //获取Data中的EQUPMENTS这个二位数组的全部元素
-        int type = Integer.parseInt(EQUIPMENTS[index][0]);
+        int SbType = Integer.parseInt(EQUIPMENTS[index][0]);
 
         /*每个参数代表其在EQUIPMENTS中对应索引的值
          * 通过switch case语句new相应的对象传入所需参数*/
@@ -85,7 +84,7 @@ public class NameListService {
         double price;
 
         //通过type获取的值、判断值对应的全局常量、最后确定new什么类型的对象
-        switch (type){
+        switch (SbType){
             case PC:
                 return new PC(model,display);
 
@@ -98,11 +97,13 @@ public class NameListService {
         }
         return  null;
     }
-    //获取所有员工
+
+    //3:获取所有员工
     public Employee[] getAllEmployees(){
         return employees;
     }
-    //获取指定id的员工
+
+    //4:获取指定id的员工
     public Employee getEmployee(int id) throws TeamException{
         for (int i = 0; i < employees.length; i++) {
             if (employees[i].getId() == id){
