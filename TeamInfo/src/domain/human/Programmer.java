@@ -14,6 +14,7 @@ public class Programmer extends Employee{
     NameLitService中项目并没有要求加入status元素
     是通过后期的TeamService调用时再进行修改的
      */
+    //private Status status = Status.FREE;
     private Status status = Status.FREE;
     private Equipment equipment;
 

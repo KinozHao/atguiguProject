@@ -67,11 +67,19 @@ public class TeamService {
         }*/
 
         //写法二:避免出现nullPointerException
-        if ("BUSY".equals(cxy.getStatus().getNAME())){
+        /*if ("BUSY".equals(cxy.getStatus().getNAME())){
             throw new TeamException("该成员已经是某团队成员");
             //IgnoreCase忽略大小写
         }else if ("VACATION".equalsIgnoreCase(cxy.getStatus().getNAME())){
             throw new TeamException("该成员正在休假，无法添加");
+        }*/
+
+        //写法三:当你有了枚举类事情会变得如此简单QWQ~~~
+        switch (cxy.getStatus()){
+            case BUSY:
+                throw new TeamException("该成员已经是某团队成员");
+            case VACATION:
+                throw new TeamException("该成员正在休假，无法添加");
         }
 
         //step 5: [团队至多有一个架构师、两个设计师、三个程序员]

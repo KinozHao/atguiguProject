@@ -5,7 +5,7 @@ package service;
  * @date 2022/4/23 - 19:20
  * @apiNote 员工的状态类(枚举类的体现)
  */
-public class Status {
+/*public class Status {
     private final String NAME;
     private Status(String name){
         this.NAME = name;
@@ -24,4 +24,8 @@ public class Status {
     public String toString() {
         return NAME;
     }
+}*/
+//有了枚举类事情如此简单~~
+public enum Status{
+    FREE,BUSY,VACATION;
 }
